@@ -15,6 +15,7 @@
   "license": "ISC",
   "dependencies": {
     "express": "^4.19.2",
-    "mongoose": "^8.6.1"
+    "mongoose": "^8.6.1",
+    "validator": "^13.12.0"
   }
 }
