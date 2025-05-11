@@ -8,6 +8,7 @@ const { membershipAmount } = require("../utils/constants");
 const {
   validateWebhookSignature,
 } = require("razorpay/dist/utils/razorpay-utils");
+const { RAZORPAY_KEY_ID, RAZORPAY_WEBHOOK_SECRET } = require("../config/config");
 
 paymentRouter.post("/payment/create", userAuth, async (req, res) => {
   try {
@@ -42,7 +43,7 @@ paymentRouter.post("/payment/create", userAuth, async (req, res) => {
     const savedPayment = await payment.save();
 
     // Return back my order details to frontend
-    res.json({ ...savedPayment.toJSON(), keyId: process.env.RAZORPAY_KEY_ID });
+    res.json({ ...savedPayment.toJSON(), keyId: RAZORPAY_KEY_ID });
   } catch (err) {
     return res.status(500).json({ msg: err.message });
   }
@@ -57,7 +58,7 @@ paymentRouter.post("/payment/webhook", async (req, res) => {
     const isWebhookValid = validateWebhookSignature(
       JSON.stringify(req.body),
       webhookSignature,
-      process.env.RAZORPAY_WEBHOOK_SECRET
+      RAZORPAY_WEBHOOK_SECRET
     );
 
     if (!isWebhookValid) {
